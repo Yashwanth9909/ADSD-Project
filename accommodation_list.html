@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Accommodation List</title>
+</head>
+<body>
+    <h1>Accommodation List</h1>
+    <a href="{{ url_for('create_accommodation') }}">Add New Accommodation</a>
+    <ul>
+        {% for accommodation in accommodations %}
+            <li>
+                <strong>{{ accommodation.name }}</strong> - {{ accommodation.location }} - ${{ accommodation.price }}
+                Amenities: {{ ', '.join(accommodation.amenities) }}
+                <a href="{{ url_for('update_accommodation', accommodation_id=accommodation.id) }}">Edit</a>
+                <a href="{{ url_for('delete_accommodation', accommodation_id=accommodation.id) }}">Delete</a>
+                <br>
+                <strong>Reviews:</strong>
+                <ul>
+                    {% for review in accommodation.reviews %}
+                        <li>
+                            Rating: {{ review.rating }} - {{ review.comments }}
+                        </li>
+                    {% else %}
+                        <li>No reviews yet.</li>
+                    {% endfor %}
+                </ul>
+                <a href="{{ url_for('create_review') }}?accommodation_id={{ accommodation.id }}">Add Review</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
